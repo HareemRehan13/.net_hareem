@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp_hareem.Models;
 
 namespace WebApp_hareem.Controllers
 {
@@ -48,5 +49,22 @@ namespace WebApp_hareem.Controllers
             HttpContext.Session.Remove("role");
             return RedirectToAction("Login");
         }
+		public IActionResult AddProduct()
+		{
+            return View();
+		}
+        [HttpPost]
+        public IActionResult AddProduct(Product pro)
+        {
+            if (ModelState.IsValid)
+            {
+                return Content("Data is in correct format.");
+            }
+            else {
+                ViewBag.msg = "Data not valid";
+            return View();
+            }
+        }
+
     }
 }
