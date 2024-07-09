@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace WebApp_hareem
 {
     public class Program
@@ -9,6 +11,16 @@ namespace WebApp_hareem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDistributedMemoryCache();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie( 
+                op =>
+            {
+                op.LoginPath = "/Auth/Login";
+                op.AccessDeniedPath = "/Auth/Login";
+                op.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            }
+            );
+
 
             builder.Services.AddSession(options =>
             {
@@ -32,7 +44,7 @@ namespace WebApp_hareem
 
             app.UseRouting();
             app.UseSession();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
